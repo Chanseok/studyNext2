@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head'
 import _ from 'lodash';
+import produce from 'immer';
 
 export default function Home() {
   /*
@@ -38,6 +39,7 @@ export default function Home() {
     const item = {
       id: (new Date().getTime().toString()),
       text,
+      isDone: false,
     };
     setList([
       ...list,
@@ -50,6 +52,15 @@ export default function Home() {
     setList(_.reject(list, item => item.id == id))
   }, [list])
 
+  const done = React.useCallback(id => {
+    const newList = produce(list, draft=>{
+      const target = list.find(item => item.id == id);
+      const index = list.indexOf(target);
+      draft[index].isDone = !target.isDone;
+    });
+    setList(newList);
+  }, [list]);
+
   return (
     <div className="py-8 px-16">
       <Head>
@@ -61,7 +72,7 @@ export default function Home() {
       <div>
         <input
           type="text"
-          className='border-1 p-1'
+          className='border-2 p-1'
           value={text}
           onChange={event => setText(event.target.value)}
         >
@@ -76,8 +87,14 @@ export default function Home() {
         {
           list.map(item => (
             <li key={item.id}>
+              <input 
+              type='checkbox' 
+              className='mr-2'
+              checked={!!item.isDone}
+              onChange = { ()=>done(item.id) }
+              />
               {item.text}
-              <button className='ml-10 text-xs text-red-500'
+              <button className='ml-4 text-xs text-red-500'
                 onClick={() => removeItem(item.id)}
               >[삭제]</button>
             </li>
