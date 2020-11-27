@@ -1,65 +1,40 @@
+import React from 'react';
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  /*
+  console.log("page: index")
+  console.log(window) // 서버사이드에서는 불가, window 객체는 client에만 존재함
+  // alert, document, ... -> client side에만 존재하는 객체들
+  */
+
+  React.useEffect(() => {
+    // 서버사이드에서는 실행되지 않는 client side 전용 이벤트
+    // console.log("index > useEfect ")
+    // console.log(localStorage)
+
+  }, [])
+
   return (
-    <div className={styles.container}>
+    <div className="py-8 px-16">
       <Head>
-        <title>Create Next App</title>
+        <title>Todo list app</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <h1 className="text-4xl font-bold">TO-DO List</h1>
+      <div>
+        <input type="text" className='border-2 py-2'></input>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>추가</button>
+      </div>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+      <ul className='list-disc'>
+        <li>할일 내용 1
+        <button className='ml-10 text-xs text-red-500'>[삭제]</button>
+        </li>
+      </ul>
+      <p>Lorem ipsum dolor sit amet, consectetur</p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   )
 }
