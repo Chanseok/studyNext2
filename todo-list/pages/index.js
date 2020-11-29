@@ -53,7 +53,7 @@ export default function Home() {
   }, [list])
 
   const done = React.useCallback(id => {
-    const newList = produce(list, draft=>{
+    const newList = produce(list, draft => {
       const target = list.find(item => item.id == id);
       const index = list.indexOf(target);
       draft[index].isDone = !target.isDone;
@@ -87,13 +87,15 @@ export default function Home() {
         {
           list.map(item => (
             <li key={item.id}>
-              <input 
-              type='checkbox' 
-              className='mr-2'
-              checked={!!item.isDone}
-              onChange = { ()=>done(item.id) }
+              <input
+                type='checkbox'
+                className='mr-2'
+                checked={!!item.isDone}
+                onChange={() => done(item.id)}
               />
-              {item.text}
+              <span className={item.isDone ? 'line-through text-gray-500' : ''}>
+                {item.text}
+              </span>
               <button className='ml-4 text-xs text-red-500'
                 onClick={() => removeItem(item.id)}
               >[삭제]</button>
