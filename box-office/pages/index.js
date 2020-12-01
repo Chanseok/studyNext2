@@ -3,7 +3,9 @@ import Head from 'next/head';
 import axios from 'axios';
 import Error from 'next/error';
 import Link from 'next/link';
-
+import { DatePicker } from 'antd';
+import moment from 'moment';
+import Router from 'next/router';
 export default function Home(props) {
   if (props.error) {
     // console.log(props.error);
@@ -14,6 +16,7 @@ export default function Home(props) {
     return <Error title={props.data.faultInfo.message} />;
   }
   // console.log(props.data.boxOfficeResult.dailyBoxOfficeList);
+  // console.log(moment(props.targetDt, 'YYYYMMDD'))
 
   return (
     <div >
@@ -22,7 +25,21 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>박스 오피스</h1>
-      <p> 기준: {props.year}년 {props.month}월 {props.day}일</p>
+
+      <div>
+        {/* <DatePicker/> */}
+        <DatePicker
+          defaultValue={moment(props.targetDt, 'YYYYMMDD')}
+          dateFormat={'YYYYMMDD'}
+          onChange={date => {
+            if (date == null) { // set to yesterday when clear date field
+              Router.push('/?targetDt=' + moment().subtract(1, 'day').format('YYYYMMDD'))
+              return
+            }
+            Router.push('/?targetDt=' + date.format('YYYYMMDD'))
+          }}
+        />
+      </div>
 
       <div>
         {
@@ -49,23 +66,17 @@ Home.getInitialProps = async function (context) {
   // app key value read from file
   const appKey = require('../apiKey.json');
 
-  // yesterday as target date code  
-  let d = new Date();
-  d.setDate(d.getDate() - 1)
-  const { year: year, month: month, day: day } = getDateStrings(d)
-  const targetDt = year + month + day;
+  const targetDt = context.query.targetDt || moment().subtract(1, 'day').format('YYYYMMDD');
 
   let url = 'https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json'
   url += '?key=' + appKey.key;
   url += '&targetDt=' + targetDt
   try {
     const response = await axios.get(url);
-    console.log(response.data);
+    // console.log(response.data);
     return {
+      targetDt,
       data: response.data,
-      year: year,
-      month: month,
-      day: day,
     }
   } catch (error) {
     console.warn(error);
@@ -73,19 +84,5 @@ Home.getInitialProps = async function (context) {
   }
 
 }
-// export default Home;
 
-/*
- * 날짜포맷 yyyy-MM-dd 변환
- */
-function getDateStrings(date) {
-  const year = date.getFullYear().toString();
-  let month = (1 + date.getMonth()).toString();
-  month = month >= 10 ? month : '0' + month;
-  let day = date.getDate();
-  day = day >= 10 ? day : '0' + day;
-  // return year +'-' + month +'-'+ day;
-  return {
-    year, month, day,
-  };
-}
+// export default Home;
