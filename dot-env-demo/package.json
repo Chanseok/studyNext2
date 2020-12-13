@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env next dev -p ${PORT-3000}",
+    "dev": "cross-env NODE_OPTIONS=\"-r esm\" next dev -p ${PORT-3000}",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
     "antd": "^4.9.2",
     "dotenv-webpack": "^6.0.0",
+    "esm": "^3.2.25",
     "next": "10.0.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
