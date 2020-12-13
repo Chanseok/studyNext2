@@ -11,6 +11,7 @@ export default function Home() {
         <p>
           API_HOST: {process.env.API_HOST}
         </p>
+        <button className="btn-blue">Tailwind button</button>
       <div>
         <Button>Welcome</Button>
       </div>
