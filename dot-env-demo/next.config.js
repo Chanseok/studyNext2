@@ -1,4 +1,6 @@
 const Dotenv = require("dotenv-webpack");
+// npm i @zeit/next-less less // antd.less 를 활용해 보려고 하였으나 실패하여 관련 코드는 commented out
+// const withLess = require("@zeit/next-less"); 
 
 let config = {
     webpack: (config) => {
@@ -9,5 +11,12 @@ let config = {
       return config;
     }
 };
+
+// config = withLess({
+//   ...config,
+//   lessLoaderOptions: {
+//     javascriptEnabled: true,
+//   },
+// })
 
 module.exports = config;
