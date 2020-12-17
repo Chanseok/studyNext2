@@ -1,15 +1,25 @@
+import React from 'react';
+import { Table } from 'antd';
+
+const columns = [
+    {
+        title: '메뉴',
+        dataIndex: '메뉴',
+        key: '메뉴',
+    },
+    {
+        title: '가격',
+        dataIndex: '가격',
+        key: '가격',
+    },
+];
+
+
 export default function Menu(props) {
+
     return (
         <>
-            <table>
-                {props.menu.map( item => (
-                    <tr key={item[0]}>
-                        <td>{item[0]}</td>
-                        <td>{item[1]}</td>
-
-                    </tr>
-                ))}
-            </table>
+            <Table dataSource={props.menu} columns={columns} rowKey={'메뉴'}></Table>
         </>
     )
 
